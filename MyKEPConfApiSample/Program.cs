@@ -19,11 +19,13 @@ namespace MyKEPConfApiSample
             Console.WriteLine("Devs:" + KepConfApiH.getDevListJson("13006")); Console.ReadLine();
             Console.WriteLine("Tags:" + KepConfApiH.getTagListJson("13006","1")); Console.ReadLine();
 
-            var x = KepConfApiH.createCh("mych");//results:  201:created //400:err //200:ok/deleted
+            var template = new KepModbusTemplate();
 
-            KepConfApiH.createDev("mych", "mydev", "<5.26.130.81>.1", "35001");
+            var x = KepConfApiH.createCh(template,"mych");//results:  201:created //400:err //200:ok/deleted
 
-            KepConfApiH.createTags("mych", "mydev", new List<Tuple<string, string, int>>() {
+            KepConfApiH.createDev(template,"mych", "mydev", "<5.26.130.81>.1", "35001");
+
+            KepConfApiH.createTags(template,"mych", "mydev", new List<Tuple<string, string, int>>() {
                 new Tuple<string, string, int>("mytag1", "404031", 5),
                 new Tuple<string, string, int>("mytag2", "404032", 5)
             });

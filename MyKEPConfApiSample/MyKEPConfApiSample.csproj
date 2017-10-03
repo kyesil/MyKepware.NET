@@ -46,7 +46,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Helper\KepConfApiH.cs" />
-    <Compile Include="Helper\KepTemplates.cs" />
+    <Compile Include="Helper\KepTemplate.cs" />
+    <Compile Include="Helper\KepModbusTemplate.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

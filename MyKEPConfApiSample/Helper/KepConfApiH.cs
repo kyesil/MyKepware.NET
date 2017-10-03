@@ -13,7 +13,7 @@ namespace MyKEPConfApiHelper
         public static string kepConfApiUrl;
         public static HttpBasicAuthenticator kepAuth;
 
-        public static int createCh(string name)
+        public static int createCh(KepTemplate keptemplate, string name)
         {
             var client = new RestClient(kepConfApiUrl + "/config/v1/project/channels/");
             client.Authenticator = kepAuth;
@@ -22,27 +22,27 @@ namespace MyKEPConfApiHelper
             request.AddHeader("cache-control", "no-cache");
             // request.AddHeader("authorization", "Basic QWRtaW5pc3RyYXRvcjo=");
             request.AddHeader("content-type", "application/json");
-            request.AddParameter("application/json", KepTemplates.getModbusChJson(name,"5000"), ParameterType.RequestBody);
+            request.AddParameter("application/json",  keptemplate.getChJson(name,"5000"), ParameterType.RequestBody);
             IRestResponse response = client.Execute(request);
             return (int)response.StatusCode;
 
         }
 
 
-        public static int createDev(string chname, string name,string hostid,string port)
+        public static int createDev(KepTemplate keptemplate, string chname, string name,string hostid,string port)
         {
             var client = new RestClient(kepConfApiUrl + "/config/v1/project/channels/" + chname + "/devices/");
             client.Authenticator = kepAuth;
             var request = new RestRequest(Method.POST);
             request.AddHeader("cache-control", "no-cache");
             request.AddHeader("content-type", "application/json");
-            request.AddParameter("application/json", KepTemplates.getModbusDevJson(name, hostid,port), ParameterType.RequestBody);
+            request.AddParameter("application/json", keptemplate.getDevJson(name, hostid,port), ParameterType.RequestBody);
             IRestResponse response = client.Execute(request);
             return (int)response.StatusCode;
 
         }
 
-        public static int createTags(string chname, string devname, List<Tuple<string, string, int>> tags)
+        public static int createTags(KepTemplate keptemplate,string chname, string devname, List<Tuple<string, string, int>> tags)
         {
 
 
@@ -54,7 +54,7 @@ namespace MyKEPConfApiHelper
             request.AddHeader("content-type", "application/json");
 
          
-           var tagsJson = KepTemplates.getModbusTagJson(tags);
+           var tagsJson = keptemplate.getTagsJson(tags);
             request.AddParameter("application/json", tagsJson, ParameterType.RequestBody);
             IRestResponse response = client.Execute(request);
             return (int)response.StatusCode;
