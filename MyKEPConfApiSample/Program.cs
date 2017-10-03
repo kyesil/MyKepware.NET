@@ -30,7 +30,7 @@ namespace MyKEPConfApiSample
 
             Console.ReadLine();
 
-            KepConfApiH.deleteTag("mych", "mydev", "mytag");
+            KepConfApiH.deleteTag("mych", "mydev", "mytag1");
             KepConfApiH.deleteDev("mych", "mydev");
             KepConfApiH.deleteCh("mych");
             Console.ReadLine();
