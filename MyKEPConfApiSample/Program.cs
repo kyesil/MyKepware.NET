@@ -11,20 +11,17 @@ namespace MyKEPConf
 
         static void Main(string[] args)
         {
-            var client = new RestClient(kepConfApiUrl + "/config/v1/project/channels/");
-            client.Authenticator = new HttpBasicAuthenticator("Administrator", "");
-            var request = new RestRequest(Method.GET);
-            request.AddHeader("cache-control", "no-cache");
 
-            IRestResponse response = client.Execute(request);
-            Console.WriteLine("Hello KEPServer=" + response.Content);
+            Console.WriteLine("Ch:" + getChListJson());Console.ReadLine();
+            Console.WriteLine("Devs:" + getDevListJson("13006")); Console.ReadLine();
+            Console.WriteLine("Tags:" + getTagListJson("13006","1")); Console.ReadLine();
 
             var x = createCh("mych");//results:  201:created //400:alrady exists //200:ok/deleted
             createDev("mych", "mydev");
             createTags("mych", "mydev", new string[] { "mytag","mytag2" });
 
             deleteTag("mych", "mydev", "mytag");
-            x = deleteDev("mych", "mydev");
+            deleteDev("mych", "mydev");
             deleteCh("mych");
             Console.ReadLine();
 
@@ -122,6 +119,41 @@ namespace MyKEPConf
 
         }
 
+
+        static string getChListJson()
+        {
+            var client = new RestClient(kepConfApiUrl + "/config/v1/project/channels/");
+            client.Authenticator = kepAuth;
+            var request = new RestRequest(Method.GET);
+            request.AddHeader("cache-control", "no-cache");
+
+            IRestResponse response = client.Execute(request);
+            return response.Content;
+
+        }
+        static string getDevListJson(string chname)
+        {
+            var client = new RestClient(kepConfApiUrl + "/config/v1/project/channels/"+chname+"/devices");
+            client.Authenticator = kepAuth;
+            var request = new RestRequest(Method.GET);
+            request.AddHeader("cache-control", "no-cache");
+
+            IRestResponse response = client.Execute(request);
+            return response.Content;
+
+        }
+
+        static string getTagListJson(string chname,string devname)
+        {
+            var client = new RestClient(kepConfApiUrl + "/config/v1/project/channels/" + chname + "/devices/"+ devname+"/tags");
+            client.Authenticator = kepAuth;
+            var request = new RestRequest(Method.GET);
+            request.AddHeader("cache-control", "no-cache");
+
+            IRestResponse response = client.Execute(request);
+            return response.Content;
+
+        }
 
     }
 }
