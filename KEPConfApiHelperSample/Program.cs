@@ -1,7 +1,7 @@
 ﻿using RestSharp;
 using RestSharp.Authenticators;
 using System;
-using MyKEPConfApiHelper;
+using KEPConfApiHelper;
 using System.Collections.Generic;
 
 namespace MyKEPConfApiSample
